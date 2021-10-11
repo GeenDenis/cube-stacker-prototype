@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class JumpFeature : MonoBehaviour
 {
@@ -6,6 +8,7 @@ public class JumpFeature : MonoBehaviour
     [SerializeField] private Vector3 relativeJumpVector;
     [SerializeField] private float durationTouchLimit;
 
+    private bool onFly;
     private float jumpPower;
 
     private void Awake()
@@ -18,8 +21,20 @@ public class JumpFeature : MonoBehaviour
 
     public void Jump(float durationTouch)
     {
+        if (onFly)
+        {
+            return;
+        }
+        
         var jumpPower = Mathf.InverseLerp(0f, durationTouchLimit, durationTouch);
         var jumpVector = transform.up + relativeJumpVector * jumpPower;
         rbComponent.AddForce(jumpVector, ForceMode.Impulse);
+        
+        onFly = true;
+    }
+
+    public void Land()
+    {
+        onFly = false;
     }
 }

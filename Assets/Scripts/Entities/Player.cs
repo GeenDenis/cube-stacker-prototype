@@ -55,6 +55,11 @@ public class Player : MonoBehaviour
         OnDead.Invoke();
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        jumpComponent.Land();
+    }
+
     private void CheckComponents()
     {
         if (moveComponent == null)
